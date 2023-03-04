@@ -19,7 +19,7 @@ fn main() {
 struct CustomMaterial {
     #[uniform(0)]
     time: f32,
-    #[uniform(0)]
+    #[uniform(1)]
     resolution: Vec2,
 }
 
