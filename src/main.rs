@@ -19,6 +19,8 @@ fn main() {
 struct CustomMaterial {
     #[uniform(0)]
     time: f32,
+    #[uniform(0)]
+    resolution: Vec2,
 }
 
 impl Material2d for CustomMaterial {
@@ -32,15 +34,18 @@ fn setup(
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<CustomMaterial>>,
     time: Res<Time>,
+    windows: Res<Windows>,
 ) {
+    let window = windows.get_primary().unwrap();
     spawn_camera(&mut commands);
     commands.spawn(MaterialMesh2dBundle {
         mesh: meshes.add(Mesh::from(shape::Quad::default())).into(),
         material: materials.add(CustomMaterial {
             time: time.elapsed_seconds(),
+            resolution: Vec2::new(window.width(), window.height()),
         }),
         transform: Transform {
-            scale: Vec3::new(100., 100., 100.),
+            scale: Vec3::new(window.width(), window.height(), 100.),
             ..default()
         },
         ..default()
